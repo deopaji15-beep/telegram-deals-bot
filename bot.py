@@ -1,5 +1,5 @@
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
+from telegram.ext import Application, CommandHandler, ContextTypes
 
 BOT_TOKEN = "8745652305:AAEFfbFVV2Uh9rvjkzmbo6vviO1GHxWbbDg"
 ADMIN_ID = 692361687
@@ -39,7 +39,7 @@ async def deal(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     buttons = [
         [InlineKeyboardButton("🛒 Buy Now", url=link)],
-        [InlineKeyboardButton("📢 Join Channel", url=f"https://t.me/{CHANNEL_USERNAME.replace('@','')}")]
+        [InlineKeyboardButton("📢 Join Channel", url="https://t.me/savekaroofficial")]
     ]
 
     await context.bot.send_message(
@@ -51,8 +51,11 @@ async def deal(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     await update.message.reply_text("✅ Deal posted successfully!")
 
-app = ApplicationBuilder().token(BOT_TOKEN).build()
-app.add_handler(CommandHandler("start", start))
-app.add_handler(CommandHandler("deal", deal))
+def main():
+    app = Application.builder().token(BOT_TOKEN).build()
+    app.add_handler(CommandHandler("start", start))
+    app.add_handler(CommandHandler("deal", deal))
+    app.run_polling()
 
-app.run_polling()
+if __name__ == "__main__":
+    main()
